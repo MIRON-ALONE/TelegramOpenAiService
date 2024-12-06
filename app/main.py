@@ -1,22 +1,18 @@
 import asyncio
-from fastapi import FastAPI
-from api.routes.api import router as api_router
-from core.events import create_start_app_handler
-from core.config import API_PREFIX, DEBUG, PROJECT_NAME, VERSION
-from api import start_telegram_bot  # Импорт функции для запуска бота
+from telegram import Update
+from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 
-def get_application() -> FastAPI:
-    application = FastAPI(title=PROJECT_NAME, debug=DEBUG, version=VERSION)
-    application.include_router(api_router, prefix=API_PREFIX)
-    pre_load = False
-    if pre_load:
-        application.add_event_handler("startup", create_start_app_handler(application))
-    return application
+print("Начало выполнения")
 
-app = get_application()
+async def hello(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    print("def hello выполнено")
+    await update.message.reply_text(f'Hello {update.effective_user.first_name}')
 
-# Запуск Telegram-бота
-@app.on_event("startup")
-async def startup_event():
-    asyncio.create_task(start_telegram_bot())
+async def main():
+    print('main выполнено')
+    app = ApplicationBuilder().token("7616064677:AAHzFDKNoB5Qo8hrz33oEeQlsF7jRO5jSFk").build()
+    app.add_handler(CommandHandler("hello", hello))
+    await app.run_polling()
 
+if __name__ == '__main__':
+    asyncio.run(main())
