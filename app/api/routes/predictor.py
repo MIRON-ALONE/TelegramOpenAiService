@@ -1,4 +1,5 @@
 import json
+import fastapi
 
 import joblib
 from fastapi import APIRouter, HTTPException
