@@ -16,6 +16,7 @@ TOKEN = getenv("7616064677:AAHzFDKNoB5Qo8hrz33oEeQlsF7jRO5jSFk")
 
 dp = Dispatcher()
 
+print('подключение')
 
 @dp.message(CommandStart())
 async def command_start_handler(message: Message) -> None:
@@ -52,6 +53,7 @@ async def main() -> None:
     # And the run events dispatching
     await dp.start_polling(bot)
 
+print('выполнено')
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, stream=sys.stdout)
